@@ -27,6 +27,26 @@ router.get('/:id', getProduct, (req, res) => {
   res.json(res.product);
 });
 
+router.delete('/:id', async (req, res) => {
+  const deletedRecord = await Product.findOneAndDelet({ _id: req.params.id })
+  res.send(deletedRecord)
+})
+
+
+router.put('/:id', async (req, res) => {
+
+  // let updatededRecord = await Product.findById({ _id: req.params.id })
+  // updatededRecord.quantity = req.body.quantity
+  // updatededRecord = await updatededRecord.save()
+  // res.send(updatededRecord)
+
+
+  let updatededRecord = await Product.findByIdAndUpdate(req.params.id, req.body)
+  // updatededRecord.quantity = req.body.quantity
+  // updatededRecord = await updatededRecord.save()
+  res.send(updatededRecord)
+})
+
 // Middleware to get a single product by ID
 async function getProduct(req, res, next) {
   let product;
