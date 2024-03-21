@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import CreateProduct from "./CreateProduct";
+import CreateCategory from "./CreateCategory";
 
-function Product({ allCategories, products, fetchProducts }) {
+function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   const [isCreatingNewProduct, setIsCreatingProduct] = useState(false);
   const [modalTitle, setModalTitle] = useState(null);
   const [selectedProduct, setSelectProduct] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+
   const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
 
   const showModal = (product, title, isUpdatingProduct = false) => {
@@ -18,6 +21,11 @@ function Product({ allCategories, products, fetchProducts }) {
     setSelectedCategory(
       allCategories.find((category) => category._id == product.category)
     );
+  };
+
+  const showCategoryModal = () => {
+    setIsCreatingCategory((pre) => !pre);
+    fetchCategories();
   };
 
   return (
@@ -39,11 +47,23 @@ function Product({ allCategories, products, fetchProducts }) {
         <div className="my-4">
           <button
             onClick={() => showModal(null, "Create Product")}
-            className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+            className="rounded-full me-2 bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
           >
             Create Product
           </button>
+          <button
+            onClick={showCategoryModal}
+            className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+          >
+            Create New Category
+          </button>
         </div>
+
+        <CreateCategory
+          showCategoryModal={showCategoryModal}
+          isCreatingCategory={isCreatingCategory}
+        />
+
         <table className="container">
           <thead>
             <tr className="flex justify-between">

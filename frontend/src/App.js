@@ -59,6 +59,7 @@ const App = () => {
         allCategories={categories}
         products={products}
         fetchProducts={fetchProducts}
+        fetchCategories={fetchCategories}
       />
       <CreateSale
         visible={visibleProp}
