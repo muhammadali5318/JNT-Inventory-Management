@@ -1,29 +1,54 @@
 import React, { useState } from "react";
 import CreateProduct from "./CreateProduct";
 
+function Product({ allCategories, products, fetchProducts }) {
+  const [isCreatingNewProduct, setIsCreatingProduct] = useState(false);
+  const [modalTitle, setModalTitle] = useState(null);
+  const [selectedProduct, setSelectProduct] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
 
-
-function Product({allCategories ,products }) {
-const [isCreatingNewProduct, setIsCreatingProduct] = useState(false)
-
-
-  const showModal = () => {
-    setIsCreatingProduct(pre => !pre)
-  }
+  const showModal = (product, title, isUpdatingProduct = false) => {
+    setIsCreatingProduct((pre) => !pre);
+    setModalTitle(title);
+    setIsUpdatingProduct(isUpdatingProduct);
+    if (product === null) return;
+    fetchProducts();
+    setSelectProduct(product);
+    setSelectedCategory(
+      allCategories.find((category) => category._id == product.category)
+    );
+  };
 
   return (
     <>
-    <button onClick={showModal} className='rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200'>
-      Create Product
-    </button>
-  <CreateProduct categories={allCategories} isCreatingProduct={isCreatingNewProduct} changeState={showModal} products={products}/>
+      <CreateProduct
+        selectedCategory={selectedCategory}
+        categories={allCategories}
+        isCreatingProduct={isCreatingNewProduct}
+        changeState={showModal}
+        products={products}
+        product={selectedProduct}
+        modalTitle={modalTitle}
+        isUpdatingProduct={isUpdatingProduct}
+      />
 
       <div className="container mx-auto">
-        <h3 className="text-4xl font-bold	">Products</h3>
+        <h3 className="text-4xl font-bold	mt-4">Products</h3>
+
+        <div className="my-4">
+          <button
+            onClick={() => showModal(null, "Create Product")}
+            className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+          >
+            Create Product
+          </button>
+        </div>
         <table className="container">
           <thead>
             <tr className="flex justify-between">
               <th>Product Name</th>
+              <th>Product Category</th>
               <th>Product Quantity</th>
               <th>Product Buying Price</th>
               <th>Actions</th>
@@ -34,6 +59,13 @@ const [isCreatingNewProduct, setIsCreatingProduct] = useState(false)
             {products.map((product) => (
               <tr className="flex justify-between" key={product._id}>
                 <td>{product?.name}</td>
+                <td>
+                  {
+                    allCategories.find(
+                      (category) => category._id == product.category
+                    )?.name
+                  }
+                </td>
                 <td>{product?.quantity}</td>
                 <td>{product?.price}</td>
                 <td>
@@ -43,7 +75,8 @@ const [isCreatingNewProduct, setIsCreatingProduct] = useState(false)
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="w-6 h-6 cursor-pointer"
+                    onClick={() => showModal(product, "Update Product", true)}
                   >
                     <path
                       strokeLinecap="round"
@@ -63,78 +96,3 @@ const [isCreatingNewProduct, setIsCreatingProduct] = useState(false)
 }
 
 export default Product;
-
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
-// function Sale() {
-//   const [sales, setSales] = useState([]);
-//   const [products, setProducts] = useState([]);
-//   const [totalSales, setTotalSales] = useState(0);
-
-//   const fetchSalesAndProducts = async () => {
-//     try {
-//       // const salesResponse = await axios.get(`http://localhost:3000/api/sales/findbydate?date=2024-02-21`);
-//       const salesResponse = await axios.get(`http://localhost:3000/api/sales`);
-//       const productsResponse = await axios.get(
-//         "http://localhost:3000/api/products"
-//       );
-
-//       setSales(salesResponse.data);
-//       setProducts(productsResponse.data);
-//       calculateTotalSales(salesResponse.data);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchSalesAndProducts();
-//     // eslint-disable-next-line
-//   }, []);
-
-//   const getProductById = (productId) => {
-//     return products.find((product) => product.id === productId);
-//   };
-
-//   const calculateTotalSales = (salesData) => {
-//     const total = salesData.reduce((acc, sale) => acc + sale.salePrice, 0);
-//     setTotalSales(total);
-//   };
-
-//   return (
-//     <>
-//       <div className="container mx-auto" >
-//       <h3 className="text-4xl font-bold	" >Sales</h3>
-//         <table className="container" >
-//           <thead>
-//             <tr className="flex justify-between">
-//               <th>Product Name</th>
-//               <th>Product Quantity</th>
-//               <th>Product Buying Price</th>
-//               <th>Sale Amount</th>
-//               <th>Sale Qty</th>
-//               {/* Add more table headers if needed */}
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {sales.map((sale) => (
-//               <tr className="flex justify-between" key={sale._id}>
-//                 <td>{getProductById(sale.productId)?.name}</td>
-//                 <td>{getProductById(sale.productId)?.quantity}</td>
-//                 <td>{getProductById(sale.productId)?.price}</td>
-//                 <td>{sale.salePrice}</td>
-//                 <td>{sale.saleQuantity}</td>
-//                 {/* Display more sale details as needed */}
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-
-//         <h3>Total Sales: {totalSales}</h3>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Sale;

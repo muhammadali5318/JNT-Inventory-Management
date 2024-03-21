@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import './App.css'
-import Sale from './components/Sale'
-import Products from './components/Products'
-import CreateSale from './components/CreateSale'
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import Sale from "./components/Sale";
+import Products from "./components/Products";
+import CreateSale from "./components/CreateSale";
 import axios from "axios";
 
-
 const App = () => {
-  const [visibleProp, setVisibleProp] = useState(false)
+  const [visibleProp, setVisibleProp] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  
   const showModal = () => {
-    setVisibleProp(pre => !pre)
-  }
+    setVisibleProp((pre) => !pre);
+    fetchProducts();
+  };
 
-  const fetchSalesAndProducts = async () => {
+  const fetchProducts = async () => {
     try {
       const productsResponse = await axios.get(
         "http://localhost:3000/api/products"
@@ -42,29 +41,32 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchSalesAndProducts();
+    fetchProducts();
     // eslint-disable-next-line
   }, []);
-
 
   useEffect(() => {
     fetchCategories();
     // eslint-disable-next-line
   }, []);
 
-return (
-  <>
-  <div className='container text-center py-8'>
-    <button onClick={showModal} className='rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200'>
-      Create Sale
-    </button>
-  </div>
-  <Sale products={products} />
-  <hr></hr>
-  <Products allCategories={categories} products={products} />
-  <CreateSale visible={visibleProp} changeState={showModal} products={products}/>
-  </>
-)
+  return (
+    <>
+
+      <Sale products={products} showModal={showModal} />
+      <hr></hr>
+      <Products
+        allCategories={categories}
+        products={products}
+        fetchProducts={fetchProducts}
+      />
+      <CreateSale
+        visible={visibleProp}
+        changeState={showModal}
+        products={products}
+      />
+    </>
+  );
 };
 
 export default App;

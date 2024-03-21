@@ -33,17 +33,14 @@ router.delete('/:id', async (req, res) => {
 })
 
 
+// update Product's any attribute, by id
 router.put('/:id', async (req, res) => {
 
-  // let updatededRecord = await Product.findById({ _id: req.params.id })
-  // updatededRecord.quantity = req.body.quantity
-  // updatededRecord = await updatededRecord.save()
-  // res.send(updatededRecord)
+  const options = {
+    returnDocument: 'after'
+  }
 
-
-  let updatededRecord = await Product.findByIdAndUpdate(req.params.id, req.body)
-  // updatededRecord.quantity = req.body.quantity
-  // updatededRecord = await updatededRecord.save()
+  let updatededRecord = await Product.findByIdAndUpdate(req.params.id, req.body, options)
   res.send(updatededRecord)
 })
 

@@ -10,6 +10,20 @@ function CreateSale({ visible, changeState, products }) {
     saleQuantity: null,
     saleDate: null,
   });
+  // const [productQuantity , setProductQuantity] = useState(0)
+   // State to store the selected product
+   const [selectedProduct, setSelectedProduct] = useState(null);
+
+   // Effect to set the default selected product to the first product in the list
+   useEffect(() => {
+    const product = products[0]
+     setSelectedProduct(product);
+     setFormData({
+      ...formData,
+      'product': product?._id,
+    });
+   }, [products]);
+ 
 
 
   const handleInputChange = (e) => {
@@ -20,12 +34,20 @@ function CreateSale({ visible, changeState, products }) {
     });
   };
 
+  const selectProduct = (e) => {
+    handleInputChange(e)
+    const product = products.find(product => product._id === e.target.value)
+    // setProductQuantity(product.quantity) 
+    setSelectedProduct(product)
+  }
+
   const submitForm = async (e) => {
     e.preventDefault();
     try {
       // Send POST request with formData
       const response = await axios.post("http://localhost:3000/api/sales", formData);
       console.log("Response:", response.data);
+      changeState()
       // Reset form after successful submission if needed
       setFormData({
         product: null,
@@ -44,10 +66,10 @@ function CreateSale({ visible, changeState, products }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm text-black flex justify-center items-center">
       <div className="bg-white p-10 rounded-md flex flex-col items-center justify-center">
-        Modal
+        Add new Sale
         <form onSubmit={submitForm}>
           <div>
-            <select name="product" onChange={handleInputChange}>
+            <select value={selectedProduct ? selectedProduct.id : ''} name="product" onChange={selectProduct}>
               {products.map((product) => {
                 return (
                   <option key={product._id} value={product._id}>
@@ -57,6 +79,7 @@ function CreateSale({ visible, changeState, products }) {
               })}
             </select>
           </div>
+          <div>Remaining Quantity: {selectedProduct?.quantity}</div>
           <div>
             <input
               onChange={handleInputChange}
@@ -90,7 +113,8 @@ function CreateSale({ visible, changeState, products }) {
             </button>
             <button
               type="submit"
-              className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+              disabled={selectedProduct.quantity == 0 ? true : false}
+              className="rounded-full bg-slate-500 px-3 py-1 mx-3 text-white hover:text-cyan-200 disabled:text-white disabled:bg-slate-300 disabled:border-slate-500 "
             >
               Submit
             </button>
