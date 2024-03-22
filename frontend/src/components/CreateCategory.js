@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
 import axios from "axios";
 
-function CreateCategory({ isCreatingCategory, showCategoryModal }) {
+function CreateCategory({ isCreatingCategory, showCategoryModal, fetchCategories }) {
   const [newCategory, setNewCategory] = useState("");
-  useEffect(() => {}, []);
 
   const createNewCategory = async (e) => {
     const category = {
@@ -15,9 +13,9 @@ function CreateCategory({ isCreatingCategory, showCategoryModal }) {
       "http://localhost:3000/api/category",
       category
     );
-    showCategoryModal();
     console.log(response);
-    debugger;
+    showCategoryModal();
+    fetchCategories()
   };
 
   if (!isCreatingCategory) return null;

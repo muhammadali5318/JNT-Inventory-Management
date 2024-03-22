@@ -4,11 +4,22 @@ import axios from "axios";
 
 function CreateSale({ visible, changeState, products }) {
 
+
+    // Function to get today's date in "YYYY-MM-DD" format
+    const getTodayDateString = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+  
+
   const [formData, setFormData] = useState({
     product: null,
     salePrice: null,
-    saleQuantity: null,
-    saleDate: null,
+    saleQuantity: 1,
+    saleDate: getTodayDateString(),
   });
   // const [productQuantity , setProductQuantity] = useState(0)
    // State to store the selected product
@@ -27,6 +38,7 @@ function CreateSale({ visible, changeState, products }) {
 
 
   const handleInputChange = (e) => {
+    debugger
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -36,12 +48,27 @@ function CreateSale({ visible, changeState, products }) {
 
   const selectProduct = (e) => {
     handleInputChange(e)
-    const product = products.find(product => product._id === e.target.value)
+    const product = products?.find(product => product._id === e.target.value)
     // setProductQuantity(product.quantity) 
     setSelectedProduct(product)
   }
 
+  const formatDate = (dateString = new Date()) => {
+
+    const date = new Date(`${dateString}T00:00:00Z`);
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
+  
+
   const submitForm = async (e) => {
+    formData.saleDate = formatDate(formData.saleDate) 
+    debugger
+
     e.preventDefault();
     try {
       // Send POST request with formData
@@ -52,8 +79,8 @@ function CreateSale({ visible, changeState, products }) {
       setFormData({
         product: null,
         salePrice: null,
-        saleQuantity: null,
-        saleDate: null,
+        saleQuantity: 1,
+        saleDate: getTodayDateString(),
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -94,6 +121,7 @@ function CreateSale({ visible, changeState, products }) {
               type="number"
               name="saleQuantity"
               placeholder="Sale Quantity"
+              defaultValue={1}
             ></input>
           </div>
           <div>
@@ -102,6 +130,7 @@ function CreateSale({ visible, changeState, products }) {
               type="date"
               name="saleDate"
               placeholder="Sale Date"
+              value={formData.saleDate}
             ></input>
           </div>
           <div>

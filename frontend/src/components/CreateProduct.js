@@ -12,6 +12,7 @@ function CreateProduct({
   selectedCategory,
   isUpdatingProduct,
 }) {
+
   const allCategories = categories.map((option) => ({
     value: option?._id,
     label: option?.name,
@@ -105,7 +106,7 @@ function CreateProduct({
             />
           </div>
 
-          <div className>
+          <div>
             <input
               className="w-full py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
               name="name"

@@ -24,8 +24,9 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   };
 
   const showCategoryModal = () => {
+    // debugger
     setIsCreatingCategory((pre) => !pre);
-    fetchCategories();
+    // fetchCategories();
   };
 
   return (
@@ -42,7 +43,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
       />
 
       <div className="container mx-auto">
-        <h3 className="text-4xl font-bold	mt-4">Products</h3>
+        <h3 className="text-2xl font-bold	mt-4">Products</h3>
 
         <div className="my-4">
           <button
@@ -62,6 +63,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
         <CreateCategory
           showCategoryModal={showCategoryModal}
           isCreatingCategory={isCreatingCategory}
+          fetchCategories={fetchCategories}
         />
 
         <table className="container">

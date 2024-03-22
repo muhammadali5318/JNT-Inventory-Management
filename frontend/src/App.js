@@ -2,18 +2,25 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Sale from "./components/Sale";
 import Products from "./components/Products";
-import CreateSale from "./components/CreateSale";
+import {createBrowserRouter,   RouterProvider, Outlet} from "react-router-dom"
+import Header from "./components/Header";
 import axios from "axios";
 
 const App = () => {
-  const [visibleProp, setVisibleProp] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const showModal = () => {
-    setVisibleProp((pre) => !pre);
-    fetchProducts();
+  const AppLayout = () => {
+    return (
+      <div className="app">
+        {/* header */}
+        <Header />
+        <Outlet />
+        <h1 className="text-sm mt-8 mx-5" >JNT-Inventory - Copyright Reserved</h1>
+      </div>
+    );
   };
+
 
   const fetchProducts = async () => {
     try {
@@ -50,22 +57,33 @@ const App = () => {
     // eslint-disable-next-line
   }, []);
 
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout/>,
+      // errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/",
+          element: <Products
+          allCategories={categories}
+          products={products}
+          fetchProducts={fetchProducts}
+          fetchCategories={fetchCategories}
+        />,
+        },
+        {
+          path: "/sales",
+          element: <Sale products={products} fetchProducts={fetchProducts} />,
+        }
+      ]
+    }
+  ]);
+
   return (
     <>
-
-      <Sale products={products} showModal={showModal} />
-      <hr></hr>
-      <Products
-        allCategories={categories}
-        products={products}
-        fetchProducts={fetchProducts}
-        fetchCategories={fetchCategories}
-      />
-      <CreateSale
-        visible={visibleProp}
-        changeState={showModal}
-        products={products}
-      />
+      <RouterProvider router={router} />
     </>
   );
 };
