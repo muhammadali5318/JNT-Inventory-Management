@@ -11,10 +11,10 @@ function Sale({ products, fetchProducts }) {
   const [endDate, setEndDate] = useState(0);
   const [visibleProp, setVisibleProp] = useState(false);
 
-
   const showModal = () => {
     setVisibleProp((pre) => !pre);
-    fetchProducts();
+    // fetchProducts();
+    fetchSales()
   };
 
   const fetchSales = async () => {
@@ -41,10 +41,6 @@ function Sale({ products, fetchProducts }) {
     // eslint-disable-next-line
   }, [products]);
 
-  useEffect(() => {
-    fetchSalesByDate();
-    // eslint-disable-next-line
-  }, [selectedDate]);
 
   const getProductById = (productId) => {
     return products?.find((product) => product._id === productId);
@@ -88,10 +84,10 @@ function Sale({ products, fetchProducts }) {
       <div className="container mx-auto">
         <h3 className="text-2xl font-bold	mt-4">Sales</h3>
         <CreateSale
-        visible={visibleProp}
-        changeState={showModal}
-        products={products}
-      />
+          visible={visibleProp}
+          changeState={showModal}
+          products={products}
+        />
         <div className="container mx-auto my-4">
           <button
             onClick={showModal}
@@ -133,14 +129,24 @@ function Sale({ products, fetchProducts }) {
             </button>
           </div>
           <div>
-            Filter By Date
-            <input
-              type="date"
-              id="Select-Date"
-              onChange={testing}
-              name="Select-Date"
-              className="appearance-none block w-40 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
-            />
+            <div>
+              Filter By Date
+              <input
+                type="date"
+                id="Select-Date"
+                onChange={testing}
+                name="Select-Date"
+                className="appearance-none block w-40 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
+              />
+            </div>
+            <div>
+            <button
+              onClick={fetchSalesByDate}
+              className="rounded-full bg-slate-500 px-3 py-1 mt-3 text-white hover:text-cyan-200"
+            >
+              Filter Sales
+            </button>
+            </div>
           </div>
         </div>
 

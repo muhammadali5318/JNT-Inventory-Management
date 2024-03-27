@@ -3,17 +3,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function CreateSale({ visible, changeState, products }) {
-
-
-    // Function to get today's date in "YYYY-MM-DD" format
-    const getTodayDateString = () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-  
+  // Function to get today's date in "YYYY-MM-DD" format
+  const getTodayDateString = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const [formData, setFormData] = useState({
     product: null,
@@ -22,23 +19,21 @@ function CreateSale({ visible, changeState, products }) {
     saleDate: getTodayDateString(),
   });
   // const [productQuantity , setProductQuantity] = useState(0)
-   // State to store the selected product
-   const [selectedProduct, setSelectedProduct] = useState(null);
+  // State to store the selected product
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-   // Effect to set the default selected product to the first product in the list
-   useEffect(() => {
-    const product = products[0]
-     setSelectedProduct(product);
-     setFormData({
+  // Effect to set the default selected product to the first product in the list
+  useEffect(() => {
+    const product = products[0];
+    setSelectedProduct(product);
+    setFormData({
       ...formData,
-      'product': product?._id,
+      product: product?._id,
     });
-   }, [products]);
- 
-
+  }, [products]);
 
   const handleInputChange = (e) => {
-    debugger
+    debugger;
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -47,34 +42,42 @@ function CreateSale({ visible, changeState, products }) {
   };
 
   const selectProduct = (e) => {
-    handleInputChange(e)
-    const product = products?.find(product => product._id === e.target.value)
-    // setProductQuantity(product.quantity) 
-    setSelectedProduct(product)
-  }
+    handleInputChange(e);
+    const product = products?.find((product) => product._id === e.target.value);
+    // setProductQuantity(product.quantity)
+    setSelectedProduct(product);
+  };
 
   const formatDate = (dateString = new Date()) => {
-
     const date = new Date(`${dateString}T00:00:00Z`);
-  
+
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-  
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 because months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
-  
 
   const submitForm = async (e) => {
-    formData.saleDate = formatDate(formData.saleDate) 
-    debugger
-
+    formData.saleDate = formatDate(formData.saleDate);
+    if (
+      formData.product == null ||
+      formData.salePrice == null ||
+      formData.saleQuantity == null ||
+      formData.saleDate === null
+    ) {
+      changeState();
+      return 
+    }
     e.preventDefault();
     try {
       // Send POST request with formData
-      const response = await axios.post("http://localhost:3000/api/sales", formData);
+      const response = await axios.post(
+        "http://localhost:3000/api/sales",
+        formData
+      );
       console.log("Response:", response.data);
-      changeState()
+      changeState();
       // Reset form after successful submission if needed
       setFormData({
         product: null,
@@ -84,8 +87,8 @@ function CreateSale({ visible, changeState, products }) {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      changeState();
     }
-    console.log(formData);
   };
 
   if (!visible) return null;
@@ -96,7 +99,11 @@ function CreateSale({ visible, changeState, products }) {
         Add new Sale
         <form onSubmit={submitForm}>
           <div>
-            <select value={selectedProduct ? selectedProduct.id : ''} name="product" onChange={selectProduct}>
+            <select
+              value={selectedProduct ? selectedProduct.id : ""}
+              name="product"
+              onChange={selectProduct}
+            >
               {products.map((product) => {
                 return (
                   <option key={product._id} value={product._id}>

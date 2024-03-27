@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CreateProduct from "./CreateProduct";
 import CreateCategory from "./CreateCategory";
+import Select from "react-select";
 
 function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   const [isCreatingNewProduct, setIsCreatingProduct] = useState(false);
@@ -8,8 +9,8 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   const [selectedProduct, setSelectProduct] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
-
   const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
+  const [productList, setProductList] = useState(products)
 
   const showModal = (product, title, isUpdatingProduct = false) => {
     setIsCreatingProduct((pre) => !pre);
@@ -24,11 +25,20 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   };
 
   const showCategoryModal = () => {
-    // debugger
     setIsCreatingCategory((pre) => !pre);
-    // fetchCategories();
   };
 
+
+  const handleSelection = (e) => {
+    const newList = products.filter(product => e.value === product.category)
+    setProductList(newList)
+    
+  }
+
+  const categories = allCategories.map((option) => ({
+    value: option?._id,
+    label: option?.name,
+  }));
   return (
     <>
       <CreateProduct
@@ -45,19 +55,29 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
       <div className="container mx-auto">
         <h3 className="text-2xl font-bold	mt-4">Products</h3>
 
-        <div className="my-4">
-          <button
-            onClick={() => showModal(null, "Create Product")}
-            className="rounded-full me-2 bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
-          >
-            Create Product
-          </button>
-          <button
-            onClick={showCategoryModal}
-            className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
-          >
-            Create New Category
-          </button>
+        <div className="flex justify-between my-4">
+          <div>
+            <button
+              onClick={() => showModal(null, "Create Product")}
+              className="rounded-full me-2 bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+            >
+              Create Product
+            </button>
+            <button
+              onClick={showCategoryModal}
+              className="rounded-full bg-slate-500 px-3 py-1 text-white hover:text-cyan-200"
+            >
+              Create New Category
+            </button>
+          </div>
+          <div className="w-80">
+            <Select
+              className="border  border-sky-500 rounded-sm border-solid"
+              placeholder="Category"
+              options={categories}
+              onChange={handleSelection}
+            />
+          </div>
         </div>
 
         <CreateCategory
@@ -78,7 +98,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {productList.map((product) => (
               <tr className="flex justify-between" key={product._id}>
                 <td>{product?.name}</td>
                 <td>

@@ -10,6 +10,9 @@ router.post('/', async (req, res) => {
     const sale = await Sale.create(req.body);
     
     const product = await Product.findById(req.body.product);
+    if(product.quantity === 0) {
+      return res.status(404).json({ message: 'Insufficient Quantitiy' });
+    }
     const saleQty = req.body.saleQuantity 
     const updatedProductQty = product.quantity - saleQty;
     product.quantity = updatedProductQty
