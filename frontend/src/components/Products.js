@@ -20,7 +20,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
     fetchProducts();
     setSelectProduct(product);
     setSelectedCategory(
-      allCategories.find((category) => category._id == product.category)
+      allCategories.find((category) => category._id === product.category)
     );
   };
 
@@ -100,17 +100,17 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
           <tbody>
             {productList.map((product) => (
               <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={product._id}>
-                <td scope="row"  className="text-center border border-slate-700 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">  {product?.name}</td>
-                <td scope="row"  className="text-center border border-slate-700">  
+                <td className="text-center border border-slate-700 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">  {product?.name}</td>
+                <td className="text-center border border-slate-700">  
                   {
                     allCategories.find(
-                      (category) => category._id == product.category
+                      (category) => category._id === product.category
                     )?.name
                   }
                 </td>
-                <td scope="row"  className="text-center border border-slate-700">  {product?.quantity}</td>
-                <td scope="row"  className="text-center border border-slate-700">  {product?.price}</td>
-                <td scope="row"  className="text-center border border-slate-700">  
+                <td className="text-center border border-slate-700">  {product?.quantity}</td>
+                <td className="text-center border border-slate-700">  {product?.price}</td>
+                <td className="text-center border border-slate-700">  
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
