@@ -150,23 +150,26 @@ function Sale({ products, fetchProducts }) {
           </div>
         </div>
 
-        <table className="container">
-          <thead>
-            <tr className="flex justify-between">
-              <th>Product Name</th>
-              <th>Product Buying Price</th>
-              <th>Sale Amount</th>
-              <th>Sale Qty</th>
+        <table className="my-3 container table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+            <tr>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Product Name</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Product Buying Price</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Sale Amount</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Sale Qty</th>
               {/* Add more table headers if needed */}
             </tr>
           </thead>
           <tbody>
             {sales.map((sale) => (
-              <tr className="flex justify-between" key={sale._id}>
-                <td>{getProductById(sale.product)?.name}</td>
-                <td>{getProductById(sale.product)?.price}</td>
-                <td>{sale.salePrice}</td>
-                <td>{sale.saleQuantity}</td>
+              <tr  key={sale._id} className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+
+                <td  className="text-center border border-slate-700 px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white" >{getProductById(sale.product)?.name}</td>
+                <td  className="text-center  border border-slate-700" >{getProductById(sale.product)?.price}</td>
+                <td  className="text-center  border border-slate-700" >{sale.salePrice}</td>
+                <td  className="text-center  border border-slate-700" >{sale.saleQuantity}</td>
                 {/* Display more sale details as needed */}
               </tr>
             ))}

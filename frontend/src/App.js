@@ -12,7 +12,7 @@ const App = () => {
 
   const AppLayout = () => {
     return (
-      <div className="app">
+      <div className="app bg-gray-900">
         {/* header */}
         <Header />
         <Outlet />

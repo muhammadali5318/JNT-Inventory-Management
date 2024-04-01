@@ -86,38 +86,38 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
           fetchCategories={fetchCategories}
         />
 
-        <table className="container">
-          <thead>
-            <tr className="flex justify-between">
-              <th>Product Name</th>
-              <th>Product Category</th>
-              <th>Product Quantity</th>
-              <th>Product Buying Price</th>
-              <th>Actions</th>
+        <table className="container table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr >
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Name</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Category</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Quantity</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Buying Price</th>
+              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Actions</th>
               {/* Add more table headers if needed */}
             </tr>
           </thead>
           <tbody>
             {productList.map((product) => (
-              <tr className="flex justify-between" key={product._id}>
-                <td>{product?.name}</td>
-                <td>
+              <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={product._id}>
+                <td scope="row"  className="text-center border border-slate-700 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">  {product?.name}</td>
+                <td scope="row"  className="text-center border border-slate-700">  
                   {
                     allCategories.find(
                       (category) => category._id == product.category
                     )?.name
                   }
                 </td>
-                <td>{product?.quantity}</td>
-                <td>{product?.price}</td>
-                <td>
+                <td scope="row"  className="text-center border border-slate-700">  {product?.quantity}</td>
+                <td scope="row"  className="text-center border border-slate-700">  {product?.price}</td>
+                <td scope="row"  className="text-center border border-slate-700">  
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6 cursor-pointer"
+                    className="mx-auto text-center w-6 h-6 cursor-pointer"
                     onClick={() => showModal(product, "Update Product", true)}
                   >
                     <path
