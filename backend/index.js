@@ -26,8 +26,6 @@ app.use('/api/sales', require('./routes/saleRoutes'));
 app.use('/api/category', require('./routes/categoryRoutes'));
 
 
-// Add routes for sales, purchases, etc.
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
