@@ -2,13 +2,15 @@ const {createNewCategory, getAllCategories} = require('../controllers/categoryCo
 const express = require('express');
 const router = express.Router();
 const Category = require('../models/Category');
+const verifyAuth = require('../middleware/authMiddleware')
+
 
 
 // Create a new category
-router.post('/', createNewCategory);
+router.post('/', verifyAuth,createNewCategory);
 
 // Get all category
-router.get('/', getAllCategories);
+router.get('/', verifyAuth,getAllCategories);
 
 
 module.exports = router;

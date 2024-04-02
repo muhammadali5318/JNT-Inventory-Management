@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const verifyAuth = require('../middleware/authMiddleware')
+
 
 const  {findSalesBetweenTwoDates, findByDate, getAllSales, createNewSale} = require('../controllers/salesController')
 
 // Create a new sale
-router.post('/', createNewSale);
+router.post('/',verifyAuth, createNewSale);
 
 // Get all sales
-router.get('/', getAllSales);
+router.get('/',verifyAuth, getAllSales);
 
-router.get('/findbydate', findByDate);
+router.get('/findbydate',verifyAuth, findByDate);
 
-router.get('/findBetweenTwoDates', findSalesBetweenTwoDates);
+router.get('/findBetweenTwoDates', verifyAuth,findSalesBetweenTwoDates);
 
 module.exports = router;

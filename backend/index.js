@@ -24,6 +24,7 @@ app.use(express.json());
 app.use('/api/products', require('./routes/productRoute'));
 app.use('/api/sales', require('./routes/saleRoutes'));
 app.use('/api/category', require('./routes/categoryRoutes'));
+app.use('/api/user', require('./routes/auth'));
 
 
 // Start server
