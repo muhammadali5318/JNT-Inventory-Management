@@ -17,7 +17,6 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
     setModalTitle(title);
     setIsUpdatingProduct(isUpdatingProduct);
     if (product === null) return;
-    fetchProducts();
     setSelectProduct(product);
     setSelectedCategory(
       allCategories.find((category) => category._id === product.category)
@@ -39,8 +38,19 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
     value: option?._id,
     label: option?.name,
   }));
+
+  const searchProducts = (e) => {
+    const value = e.target.value
+    const output = products.filter(product => {
+
+      if(product.name.toLowerCase().includes(value.toLowerCase())){
+        return product
+      } 
+    })
+    setProductList(output)
+  }
   return (
-    <>
+    <div>
       <CreateProduct
         selectedCategory={selectedCategory}
         categories={allCategories}
@@ -50,6 +60,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
         product={selectedProduct}
         modalTitle={modalTitle}
         isUpdatingProduct={isUpdatingProduct}
+        fetchProducts={fetchProducts}
       />
 
       <div className="container mx-auto">
@@ -72,11 +83,20 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
           </div>
           <div className="w-80">
             <Select
-              className="border  border-sky-500 rounded-sm border-solid"
-              placeholder="Category"
+              className="border text-black border-sky-500 rounded-sm border-solid"
+              placeholder="Filter by category"
               options={categories}
               onChange={handleSelection}
             />
+          <div>
+            <input
+              className="w-full text-black py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
+              name="name"
+              type="text"
+              placeholder="Search Product"
+              onChange={searchProducts}
+            ></input>
+          </div>
           </div>
         </div>
 
@@ -133,7 +153,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -22,7 +22,7 @@ function CreateCategory({ isCreatingCategory, showCategoryModal, fetchCategories
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm text-black flex justify-center items-center">
-      <div className="bg-white w-1/4	h-60 px-10 py-2 pb-4 rounded-md flex flex-col items-center ">
+      <div className="bg-white w-1/4 px-10 py-2 pb-4 rounded-md flex flex-col items-center ">
         <h1 className="text-2xl font-bold my-4">Create New Category</h1>
 
         <form className="w-full" onSubmit={createNewCategory}>

@@ -11,8 +11,8 @@ function CreateProduct({
   product,
   selectedCategory,
   isUpdatingProduct,
+  fetchProducts,
 }) {
-
   const allCategories = categories.map((option) => ({
     value: option?._id,
     label: option?.name,
@@ -61,6 +61,7 @@ function CreateProduct({
       formData
     );
     changeState(product, "");
+    fetchProducts();
     return response;
   };
   const createProduct = async () => {
@@ -92,13 +93,14 @@ function CreateProduct({
   if (!isCreatingProduct) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm text-black flex justify-center items-center">
-      <div className="bg-white w-1/4	h-1/2 px-10 py-2 pb-4 rounded-md flex flex-col items-center ">
-        <h1 className="text-2xl font-bold my-4">{modalTitle}</h1>
+    <div className="overflow-y-scroll	 fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm text-black flex justify-center items-center">
+      <div className="bg-gray-700  w-1/4 px-10 py-2 pb-4 rounded-md flex flex-col items-center ">
+        <h1 className="text-2xl text-white font-bold my-4">{modalTitle}</h1>
         <form className="w-full" onSubmit={submitForm}>
           <div>
+            <p className="text-sm text-white">Selete Category</p>
             <Select
-              className="border  border-sky-500 rounded-sm border-solid"
+              className="border mb-3 outline-none text-black  border-sky-500 rounded-sm border-solid"
               placeholder="Product Category"
               defaultValue={selectedProduct}
               onChange={handleSelection}
@@ -107,8 +109,10 @@ function CreateProduct({
           </div>
 
           <div>
+            <p className="text-sm text-white">Product Name</p>
+
             <input
-              className="w-full py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
+              className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
               name="name"
               type="text"
               defaultValue={formData.name}
@@ -117,8 +121,9 @@ function CreateProduct({
             ></input>
           </div>
           <div>
+            <p className="text-sm text-white">Product Price</p>
             <input
-              className="w-full py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
+              className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
               type="number"
               name="price"
               placeholder="Product Price"
@@ -127,8 +132,9 @@ function CreateProduct({
             ></input>
           </div>
           <div>
+            <p className="text-sm text-white">Quantity</p>
             <input
-              className="w-full py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
+              className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
               type="number"
               name="quantity"
               placeholder="Quantity"

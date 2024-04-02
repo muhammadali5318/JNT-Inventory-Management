@@ -5,6 +5,9 @@ function Header() {
   return (
     <div className="container mx-auto font-bold text-2xl mt-7">
       <ul className="flex space-x-4">
+      <li >
+        JNT-Inventory Management
+        </li>
         <li>
           <Link to="/">Products</Link>
         </li>
