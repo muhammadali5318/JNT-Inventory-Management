@@ -33,7 +33,6 @@ function CreateSale({ visible, changeState, products }) {
   }, [products]);
 
   const handleInputChange = (e) => {
-    debugger;
     const { name, value } = e.target;
     setFormData({
       ...formData,
