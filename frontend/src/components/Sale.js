@@ -10,6 +10,8 @@ function Sale({ products, fetchProducts }) {
   const [startDate, setStartDate] = useState(0);
   const [endDate, setEndDate] = useState(0);
   const [visibleProp, setVisibleProp] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
 
   const showModal = () => {
     setVisibleProp((pre) => !pre);
@@ -19,7 +21,12 @@ function Sale({ products, fetchProducts }) {
 
   const fetchSales = async () => {
     try {
-      const salesResponse = await axios.get(`http://localhost:3000/api/sales`);
+      const salesResponse = await axios.get(`http://localhost:3000/api/sales`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       setSales(salesResponse.data);
       calculateTotalSales(salesResponse.data);
@@ -30,7 +37,12 @@ function Sale({ products, fetchProducts }) {
 
   const fetchSalesByDate = async () => {
     const salesResponse = await axios.get(
-      `http://localhost:3000/api/sales/findbydate?date=${selectedDate}`
+      `http://localhost:3000/api/sales/findbydate?date=${selectedDate}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
     setSales(salesResponse.data);
     calculateTotalSales(salesResponse.data);
@@ -60,7 +72,12 @@ function Sale({ products, fetchProducts }) {
 
   const fetchSalesBetweenDates = async () => {
     const salesResponse = await axios.get(
-      `http://localhost:3000/api/sales/findBetweenTwoDates?startDate=${startDate}&endDate=${endDate}`
+      `http://localhost:3000/api/sales/findBetweenTwoDates?startDate=${startDate}&endDate=${endDate}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
     setSales(salesResponse.data);
     calculateTotalSales(salesResponse.data);

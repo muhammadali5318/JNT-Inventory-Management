@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function CreateSale({ visible, changeState, products }) {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   // Function to get today's date in "YYYY-MM-DD" format
   const getTodayDateString = () => {
     const today = new Date();
@@ -73,7 +75,12 @@ function CreateSale({ visible, changeState, products }) {
       // Send POST request with formData
       const response = await axios.post(
         "http://localhost:3000/api/sales",
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
       );
       console.log("Response:", response.data);
       changeState();

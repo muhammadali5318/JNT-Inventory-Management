@@ -13,6 +13,15 @@ function CreateProduct({
   isUpdatingProduct,
   fetchProducts,
 }) {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const allCategories = categories.map((option) => ({
     value: option?._id,
     label: option?.name,
@@ -27,14 +36,6 @@ function CreateProduct({
     quantity: "",
     category: "",
   });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   const handleSelection = (e) => {
     const { value } = e;
@@ -58,7 +59,12 @@ function CreateProduct({
   const updateProduct = async () => {
     const response = await axios.put(
       `http://localhost:3000/api/products/${product._id}`,
-      formData
+      formData,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
     changeState(product, "");
     fetchProducts();
@@ -67,7 +73,12 @@ function CreateProduct({
   const createProduct = async () => {
     const response = await axios.post(
       "http://localhost:3000/api/products",
-      formData
+      formData,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
     changeState(product, "");
     return response;
