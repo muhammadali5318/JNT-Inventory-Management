@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function CreateCategory({ isCreatingCategory, showCategoryModal, fetchCategories }) {
+function CreateCategory({
+  isCreatingCategory,
+  showCategoryModal,
+  fetchCategories,
+}) {
   const [newCategory, setNewCategory] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   const createNewCategory = async (e) => {
     const category = {
@@ -11,11 +16,16 @@ function CreateCategory({ isCreatingCategory, showCategoryModal, fetchCategories
     e.preventDefault();
     const response = await axios.post(
       "http://localhost:3000/api/category",
-      category
+      category,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
     );
     console.log(response);
     showCategoryModal();
-    fetchCategories()
+    fetchCategories();
   };
 
   if (!isCreatingCategory) return null;

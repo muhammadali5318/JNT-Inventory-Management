@@ -19,7 +19,7 @@ const App = () => {
           <Login updateToken={updateToken} />
         ) : (
           <>
-            <Header />
+            <Header updateToken={updateToken}/>
             <Outlet />
             <h1 className="text-sm mt-8 mx-5">
               JNT-Inventory - Copyright Reserved

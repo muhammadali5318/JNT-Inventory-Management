@@ -81,6 +81,7 @@ function CreateProduct({
       }
     );
     changeState(product, "");
+    fetchProducts();
     return response;
   };
 

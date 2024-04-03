@@ -28,10 +28,6 @@ const Login = ({ updateToken }) => {
     }
   };
 
-  // useEffect(() => {
-  //   authenticateUser();
-  // }, []);
-
   return (
     <>
       <div className="container mx-auto">

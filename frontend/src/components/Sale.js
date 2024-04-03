@@ -12,17 +12,14 @@ function Sale({ products, fetchProducts }) {
   const [visibleProp, setVisibleProp] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-
   const showModal = () => {
     setVisibleProp((pre) => !pre);
-    // fetchProducts();
-    fetchSales()
+    fetchSales();
   };
 
   const fetchSales = async () => {
     try {
-      const salesResponse = await axios.get(`http://localhost:3000/api/sales`,
-      {
+      const salesResponse = await axios.get(`http://localhost:3000/api/sales`, {
         headers: {
           Authorization: token,
         },
@@ -52,7 +49,6 @@ function Sale({ products, fetchProducts }) {
     fetchSales();
     // eslint-disable-next-line
   }, [products]);
-
 
   const getProductById = (productId) => {
     return products?.find((product) => product._id === productId);
@@ -157,36 +153,64 @@ function Sale({ products, fetchProducts }) {
               />
             </div>
             <div>
-            <button
-              onClick={fetchSalesByDate}
-              className="rounded-full bg-slate-500 px-3 py-1 mt-3 text-white hover:text-cyan-200"
-            >
-              Filter Sales
-            </button>
+              <button
+                onClick={fetchSalesByDate}
+                className="rounded-full bg-slate-500 px-3 py-1 mt-3 text-white hover:text-cyan-200"
+              >
+                Filter Sales
+              </button>
             </div>
           </div>
         </div>
 
         <table className="my-3 container table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Product Name</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Product Buying Price</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Sale Amount</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600" >Sale Qty</th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Name
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Buying Price
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Sale Amount
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Sale Qty
+              </th>
               {/* Add more table headers if needed */}
             </tr>
           </thead>
           <tbody>
             {sales.map((sale) => (
-              <tr  key={sale._id} className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-
-                <td  className="text-center border border-slate-700 px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white" >{getProductById(sale.product)?.name}</td>
-                <td  className="text-center  border border-slate-700" >{getProductById(sale.product)?.price}</td>
-                <td  className="text-center  border border-slate-700" >{sale.salePrice}</td>
-                <td  className="text-center  border border-slate-700" >{sale.saleQuantity}</td>
+              <tr
+                key={sale._id}
+                className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <td className="text-center border border-slate-700 px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {getProductById(sale.product)?.name}
+                </td>
+                <td className="text-center  border border-slate-700">
+                  {getProductById(sale.product)?.price}
+                </td>
+                <td className="text-center  border border-slate-700">
+                  {sale.salePrice}
+                </td>
+                <td className="text-center  border border-slate-700">
+                  {sale.saleQuantity}
+                </td>
                 {/* Display more sale details as needed */}
               </tr>
             ))}

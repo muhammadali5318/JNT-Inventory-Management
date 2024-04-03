@@ -68,7 +68,7 @@ function CreateSale({ visible, changeState, products }) {
       formData.saleDate === null
     ) {
       changeState();
-      return 
+      return;
     }
     e.preventDefault();
     try {
@@ -102,12 +102,11 @@ function CreateSale({ visible, changeState, products }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm text-black flex justify-center items-center">
       <div className="bg-gray-700  w-1/4 px-10 py-2 pb-4 rounded-md">
-      <h1 className="text-2xl text-white font-bold my-4">Add new Sale</h1>
+        <h1 className="text-2xl text-white font-bold my-4">Add new Sale</h1>
         <form className="w-full" onSubmit={submitForm}>
           <div>
             <select
               className="w-full py-2 px-1 border  border-sky-500 rounded-sm border-solid "
-
               value={selectedProduct ? selectedProduct.id : ""}
               name="product"
               onChange={selectProduct}
@@ -121,7 +120,9 @@ function CreateSale({ visible, changeState, products }) {
               })}
             </select>
           </div>
-          <div className="text-white text-sm mb-3" >Remaining Quantity: {selectedProduct?.quantity}</div>
+          <div className="text-white text-sm mb-3">
+            Remaining Quantity: {selectedProduct?.quantity}
+          </div>
           <div>
             <input
               onChange={handleInputChange}
@@ -129,7 +130,6 @@ function CreateSale({ visible, changeState, products }) {
               type="number"
               placeholder="Sale price"
               className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
-
             ></input>
           </div>
           <div>
@@ -140,7 +140,6 @@ function CreateSale({ visible, changeState, products }) {
               placeholder="Sale Quantity"
               defaultValue={1}
               className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
-
             ></input>
           </div>
           <div>
@@ -150,7 +149,6 @@ function CreateSale({ visible, changeState, products }) {
               name="saleDate"
               placeholder="Sale Date"
               className="w-full py-2 px-1 mb-3 border  border-sky-500 rounded-sm border-solid "
-
               value={formData.saleDate}
             ></input>
           </div>

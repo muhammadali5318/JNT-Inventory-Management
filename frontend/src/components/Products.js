@@ -10,7 +10,7 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
   const [isUpdatingProduct, setIsUpdatingProduct] = useState(false);
-  const [productList, setProductList] = useState(products)
+  const [productList, setProductList] = useState(products);
 
   const showModal = (product, title, isUpdatingProduct = false) => {
     setIsCreatingProduct((pre) => !pre);
@@ -27,12 +27,10 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
     setIsCreatingCategory((pre) => !pre);
   };
 
-
   const handleSelection = (e) => {
-    const newList = products.filter(product => e.value === product.category)
-    setProductList(newList)
-    
-  }
+    const newList = products.filter((product) => e.value === product.category);
+    setProductList(newList);
+  };
 
   const categories = allCategories.map((option) => ({
     value: option?._id,
@@ -40,15 +38,14 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
   }));
 
   const searchProducts = (e) => {
-    const value = e.target.value
-    const output = products.filter(product => {
-
-      if(product.name.toLowerCase().includes(value.toLowerCase())){
-        return product
-      } 
-    })
-    setProductList(output)
-  }
+    const value = e.target.value;
+    const output = products.filter((product) => {
+      if (product.name.toLowerCase().includes(value.toLowerCase())) {
+        return product;
+      }
+    });
+    setProductList(output);
+  };
   return (
     <div>
       <CreateProduct
@@ -88,15 +85,15 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
               options={categories}
               onChange={handleSelection}
             />
-          <div>
-            <input
-              className="w-full text-black py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
-              name="name"
-              type="text"
-              placeholder="Search Product"
-              onChange={searchProducts}
-            ></input>
-          </div>
+            <div>
+              <input
+                className="w-full text-black py-2 px-1 my-3 border  border-sky-500 rounded-sm border-solid "
+                name="name"
+                type="text"
+                placeholder="Search Product"
+                onChange={searchProducts}
+              ></input>
+            </div>
           </div>
         </div>
 
@@ -108,29 +105,66 @@ function Product({ allCategories, products, fetchProducts, fetchCategories }) {
 
         <table className="container table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr >
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Name</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Category</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Quantity</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Product Buying Price</th>
-              <th scope="col" className="text-center px-6 py-3 border border-slate-600">Actions</th>
+            <tr>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Name
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Category
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Quantity
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Product Buying Price
+              </th>
+              <th
+                scope="col"
+                className="text-center px-6 py-3 border border-slate-600"
+              >
+                Actions
+              </th>
               {/* Add more table headers if needed */}
             </tr>
           </thead>
           <tbody>
             {productList.map((product) => (
-              <tr className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={product._id}>
-                <td className="text-center border border-slate-700 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">  {product?.name}</td>
-                <td className="text-center border border-slate-700">  
+              <tr
+                className=" bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                key={product._id}
+              >
+                <td className="text-center border border-slate-700 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {" "}
+                  {product?.name}
+                </td>
+                <td className="text-center border border-slate-700">
                   {
                     allCategories.find(
                       (category) => category._id === product.category
                     )?.name
                   }
                 </td>
-                <td className="text-center border border-slate-700">  {product?.quantity}</td>
-                <td className="text-center border border-slate-700">  {product?.price}</td>
-                <td className="text-center border border-slate-700">  
+                <td className="text-center border border-slate-700">
+                  {" "}
+                  {product?.quantity}
+                </td>
+                <td className="text-center border border-slate-700">
+                  {" "}
+                  {product?.price}
+                </td>
+                <td className="text-center border border-slate-700">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
